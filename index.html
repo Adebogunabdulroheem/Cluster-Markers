@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>	Marker Cluster</title>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+   	<!--  Leaflet JS Marker Cluster CSS Link -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css">
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css">
+
+
+   <style>
+   		#my_map{
+   			height: 100vh;
+   			width: 100%
+   		}
+   </style>
+</head>
+<body>
+	<div id="my_map">
+		
+	</div>
+
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+	   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+	   crossorigin="">   	
+	</script>
+	<!-- Leaflet JS Markercluster CDN Link -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js" type="text/javascript"></script>
+
+	<script src="./mapdata.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		// Map Declearation
+		var map = L.map('my_map').setView([9.1021, 18.2812], 3);
+
+		var osm =  L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+		    maxZoom: 50,
+		    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+		});
+		osm.addTo(map);
+
+		// Marker Stylling
+		var marker = {
+			radius: 10,
+			fillColor: "#6e2169",
+			color: "#000",
+			weight: 0.9,
+			opacity: 0.9,
+			fillopacity: 0.7
+		};
+
+
+
+		// Marker Cluster
+		var markerCluster = L.markerClusterGroup();
+
+			// GeoJson Loader
+			L.geoJSON(map_data, {
+				pointToLayer: function (feature, latlng) {
+					return markerCluster.addLayer(L.circleMarker(latlng, marker))
+				}
+			}).addTo(map);
+
+		map.addLayer(markerCluster);
+		
+	</script>
+</body>
+</html>
